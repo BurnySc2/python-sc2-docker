@@ -16,7 +16,7 @@ RUN unzip -P iagreetotheeula SC2.4.1.2.60604_2018_05_16.zip
 
 # Download Sc2Ai Ladderserver
 RUN wget -q https://jenkins.m1nd.io/job/Sc2LadderServer/lastSuccessfulBuild/artifact/build/bin/Sc2LadderServer
-RUN mkdir ~/StarCraftII
+# RUN mkdir ~/StarCraftII
 RUN mv Sc2LadderServer ~/StarCraftII
 RUN chmod +x ~/StarCraftII/Sc2LadderServer
 
