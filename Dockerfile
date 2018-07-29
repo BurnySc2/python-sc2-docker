@@ -75,19 +75,19 @@ RUN rm *.zip
 # Change default python 2.7 => 3.6
 RUN /bin/bash -c "ln -sfn /usr/bin/python3.6 /usr/bin/python"
 
-# Download my bots
-RUN git clone --recursive https://github.com/BurnySc2/python-sc2-docker
-
-# Download python-sc2 from github
-RUN git clone --recursive https://github.com/Dentosal/python-sc2
-
 # Upgrade pip and install pip-install requirements
 RUN python -m pip install --upgrade pip
 RUN python -m pip install pipenv
 # RUN python -m pip install sc2
 
-# Install python-sc2 via setup.py file
-RUN python -m pip install /root/python-sc2
+# # Download my bots
+# RUN git clone --recursive https://github.com/BurnySc2/python-sc2-docker
+
+# # Download python-sc2 from github
+# RUN git clone --recursive https://github.com/Dentosal/python-sc2
+
+# # Install python-sc2 via setup.py file
+# RUN python -m pip install /root/python-sc2
 
 # Add python-sc2 to path - not needed here since we install from setup.py
 # ENV PYTHONPATH "${PYTHONPATH}:/root/python-sc2/"
