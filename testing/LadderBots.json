@@ -1,0 +1,16 @@
+{
+	"Bots": {
+		"emptybot": {
+			"Race": "Random",
+			"Type": "Python",
+			"RootPath": "Bots/python-sc2-empty/",
+			"FileName": "run.py"
+		},
+		"zergrushbot": {
+			"Race": "Zerg",
+			"Type": "Python",
+			"RootPath": "Bots/python-sc2-zergrush/",
+			"FileName": "run.py"
+		}
+	}
+}
