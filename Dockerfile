@@ -33,7 +33,7 @@ RUN chmod -R 777 /home/ladder
 RUN mv ~/StarCraftII /home/ladder/
 
 # Install pip packages
-RUN python3 -m pip install sc2 networkx matplotlib
+RUN python -m pip install sc2 networkx matplotlib
 
-# Change default python 2.7 => 3
-RUN /bin/bash -c "ln -sfn /usr/bin/python3 /usr/bin/python"
+# # Change default python 2.7 => 3
+# RUN /bin/bash -c "ln -sfn /usr/bin/python3 /usr/bin/python"
