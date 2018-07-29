@@ -102,6 +102,7 @@ ENTRYPOINT [ "/bin/bash" ]
 # to run the python-sc2 bot:
 # RUN python ~/python-sc2-docker/testing/python-sc2-zergrush/zerg_rush.py
 
+
 # Not relevant commands
 # docker build -t python5 .
 # docker run -i -t python5
