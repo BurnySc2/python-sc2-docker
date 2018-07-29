@@ -1,18 +1,11 @@
-# Set up StarCraft II Learning Environment
-# docker run -it \
-#        -e /bin/bash \
-#        --name sc2ai
-#         egsy/sc2ai
+# Set up StarCraft II Python-Sc2 Test Environment
 
 # Use an official Ubuntu release as a base image
 FROM ubuntu:16.04
-# FROM alpine:latest as game
 MAINTAINER Burny <gamingburny@gmail.com>
 
 USER root
 WORKDIR /root/
-
-
 
 # Update apt-get for gcc4.9
 RUN apt-get update --assume-yes --quiet=2
@@ -64,6 +57,8 @@ RUN apt-get install wget unzip git tar gzip -y
 
 # Install StarCraftII
 RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.1.2.60604_2018_05_16.zip'
+# If file is locally available, use this instead:
+# ADD SC2.4.1.2.60604_2018_05_16.zip /root/
 
 # Uncompress StarCraftII
 RUN unzip -P iagreetotheeula SC2.4.1.2.60604_2018_05_16.zip
@@ -71,8 +66,8 @@ RUN unzip -P iagreetotheeula SC2.4.1.2.60604_2018_05_16.zip
 # Download StarCraftII Maps
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2018Season2_Updated.zip
 
-# Uncompress zip files
-RUN unzip -P iagreetotheeula Ladder2018Season2_Updated.zip -d ~/StarCraftII/Maps/
+# Uncompress zip files, using "maps" instead of "Maps" as target folder
+RUN unzip -P iagreetotheeula Ladder2018Season2_Updated.zip -d ~/StarCraftII/maps/
 
 # Remove zip files
 RUN rm *.zip
@@ -80,29 +75,33 @@ RUN rm *.zip
 # Change default python 2.7 => 3.6
 RUN /bin/bash -c "ln -sfn /usr/bin/python3.6 /usr/bin/python"
 
-# install python-sc2
+# Download my bots
+RUN git clone --recursive https://github.com/BurnySc2/python-sc2-docker
+
+# Download python-sc2 from github
+RUN git clone --recursive https://github.com/Dentosal/python-sc2
+
+# Upgrade pip and install pip-install requirements
 RUN python -m pip install --upgrade pip
-RUN python -m pip install sc2
+RUN python -m pip install pipenv
+# RUN python -m pip install sc2
 
-# Set g++4.9 as default compiler by updating symbolic link
-RUN ln -f -s /usr/bin/g++-4.9 /usr/bin/g++
+# Install python-sc2 via setup.py file
+RUN python -m pip install /root/python-sc2
 
-# # Install sc2
-# RUN pip3.6 install sc2 && export SC2PATH=~/StarCraftII/
+# Add python-sc2 to path - not needed here since we install from setup.py
+# ENV PYTHONPATH "${PYTHONPATH}:/root/python-sc2/"
+
+# Run bot example
+# RUN python ~/python-sc2-docker/testing/python-sc2-zergrush/zerg_rush.py
+# TODO: need to run headless with 
+# Command Line: '"/SC2/3.16.1/StarCraftII/Versions/Base55958/SC2_x64" -listen 127.0.0.1 -port 8167 -displayMode 0 -simulationSpeed 0 -windowwidth 1024 -windowheight 768 -windowx 100 -windowy 200'
+# https://github.com/Blizzard/s2client-docker/issues/2
 
 ENTRYPOINT [ "/bin/bash" ]
+# to run the python-sc2 bot:
+# RUN python ~/python-sc2-docker/testing/python-sc2-zergrush/zerg_rush.py
+
+# Not relevant commands
 # docker build -t python5 .
 # docker run -i -t python5
-
-
-# # # Make Directory
-# # RUN mkdir -p /home/ladder/
-
-# # # Change permissions
-# # RUN chmod -R 777 /home/ladder
-
-# # # Move StarCraftII to /home/ladder
-# # RUN mv ~/StarCraftII /home/ladder/
-
-# # Install pip packages
-# RUN python -m pip install sc2 networkx matplotlib
