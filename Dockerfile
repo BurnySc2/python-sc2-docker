@@ -12,6 +12,7 @@ RUN apt-get update --assume-yes --quiet=2
 RUN apt-get install --assume-yes --quiet=2 software-properties-common \
     python-software-properties
 
+# From https://github.com/yeungegs/egsy-dockerfiles/tree/master/botbierv2
 # Update and install packages for SC2 development environment
 # RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update --assume-yes --quiet=2
@@ -29,6 +30,7 @@ RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded --qu
     libssl-dev \
     make \
     software-properties-common \
+    tree \
     unzip \
     vim \
     wget
