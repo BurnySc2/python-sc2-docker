@@ -24,7 +24,6 @@ RUN apt-get update --assume-yes --quiet=2 \
     cmake \
     git  \
     make \
-    # Tree for debugging
     tree \
     unzip \
     wget
@@ -66,10 +65,13 @@ RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2018Season2_Updated.
     && unzip -P iagreetotheeula Ladder2018Season2_Updated.zip -d ~/StarCraftII/maps/ \
     && rm *.zip
 
-
 ENTRYPOINT [ "/bin/bash" ]
 
-# To run the python-sc2 bot:
-# Install python-sc2 and requirements via pip or python -m pip
-# 
-# RUN python ~/python-sc2-docker/testing/python-sc2-zergrush/zerg_rush.py
+
+# To run a python-sc2 bot:
+# Install python-sc2 and requirements via pip:
+# python -m pip install --upgrade git+https://github.com/Dentosal/python-sc2.git
+
+
+# To run an example bot, copy one to your container and then run it with python:
+# python /your-bot.py
