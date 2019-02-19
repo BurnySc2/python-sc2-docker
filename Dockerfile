@@ -55,9 +55,9 @@ RUN python -m pip install pipenv
 
 # Download and uncompress StarCraftII, remove zip file
 # If file is locally available, use this instead:
-# ADD SC2.4.1.2.60604_2018_05_16.zip /root/
-RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.1.2.60604_2018_05_16.zip' \
-    && unzip -P iagreetotheeula SC2.4.1.2.60604_2018_05_16.zip \
+# ADD SC2.4.7.1.zip /root/
+RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.7.1.zip' \
+    && unzip -P iagreetotheeula SC2.4.7.1.zip \
     && rm *.zip
 
 # Download and uncompress StarCraftII Maps, remove zip file - using "map" instead of "Maps" as target folder
