@@ -36,7 +36,7 @@ WORKDIR build
 RUN cmake ../
 RUN make
 
-# Set working directory to root, this uncompressed StarCraftII below to folder /root/StarCraftII
+# Set working directory to root, this uncompresses StarCraftII below to folder /root/StarCraftII
 WORKDIR /root/
 
 # Download and uncompress StarCraftII, remove zip file
