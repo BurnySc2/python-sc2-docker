@@ -1,26 +1,24 @@
 # Set up StarCraft II Test Environment for Dentosal python-sc2 bots (not pysc2 bots!)
 
 # Use an official Ubuntu release as a base image
-FROM ubuntu:16.04
+FROM python:3.7-slim
 MAINTAINER Burny <gamingburny@gmail.com>
 
 USER root
 WORKDIR /root/
 
-# Update apt-get for gcc4.9
-RUN apt-get update --assume-yes --quiet=2 \
-    && apt-get install --assume-yes --quiet=2 software-properties-common \
-     python-software-properties
+# Update apt-get
+RUN apt-get update && apt-get upgrade --assume-yes --quiet=2
 
 # From https://github.com/yeungegs/egsy-dockerfiles/tree/master/botbierv2
 # Update and install packages for SC2 development environment
-# build-essential and cmake to install the S2Client API
+# g++ and make and cmake to install the S2Client API
 # git, unzip and wget for download and extraction
 # tree for debugging
-RUN apt-get update --assume-yes --quiet=2 \
-    && apt-get install --assume-yes --no-install-recommends --no-show-upgraded --quiet=2 \
+RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     net-tools \
-    build-essential \
+    g++ \
+    make \
     cmake \
     git  \
     make \
@@ -28,13 +26,8 @@ RUN apt-get update --assume-yes --quiet=2 \
     unzip \
     wget
 
-# Install python 3.6 with pip
-RUN add-apt-repository ppa:jonathonf/python-3.6 \
-    && apt-get update --assume-yes --quiet=2 \
-    && apt-get install --assume-yes --no-install-recommends --no-show-upgraded --quiet=2 \
-    python3.6 \
-    python3-setuptools \
-    python3-pip
+# Upgrade pip and install pip-install requirements
+RUN python -m pip install --upgrade pip pipenv
 
 # Install Blizzard S2Client API
 RUN git clone --recursive https://github.com/Blizzard/s2client-api
@@ -43,24 +36,19 @@ WORKDIR build
 RUN cmake ../
 RUN make
 
-# Set working directory to root
+# Set working directory to root, this uncompresses StarCraftII below to folder /root/StarCraftII
 WORKDIR /root/
-
-# Change default python 2.7 => 3.6
-RUN /bin/bash -c "ln -sfn /usr/bin/python3.6 /usr/bin/python"
-
-# Upgrade pip and install pip-install requirements
-RUN python -m pip install --upgrade pip
-RUN python -m pip install pipenv
 
 # Download and uncompress StarCraftII, remove zip file
 # If file is locally available, use this instead:
-# ADD SC2.4.7.1.zip /root/
+#ADD SC2.4.7.1.zip /root/
+#RUN unzip -P iagreetotheeula SC2.4.7.1.zip \
+#    && rm *.zip
 RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.7.1.zip' \
     && unzip -P iagreetotheeula SC2.4.7.1.zip \
     && rm *.zip
 
-# Download and uncompress StarCraftII Maps, remove zip file - using "map" instead of "Maps" as target folder
+# Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2018Season2_Updated.zip \
     && unzip -P iagreetotheeula Ladder2018Season2_Updated.zip -d ~/StarCraftII/maps/ \
     && rm *.zip
