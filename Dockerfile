@@ -64,7 +64,6 @@ RUN wget http://wiki.sc2ai.net/images/9/95/S8Wk1Maps.zip
 RUN wget http://wiki.sc2ai.net/images/a/af/Wk2maps.zip
 RUN unzip -o '*.zip'
 RUN rm *.zip
-RUN rm *.txt
 RUN tree
 
 
