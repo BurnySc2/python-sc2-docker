@@ -52,9 +52,16 @@ RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.7.1.zip' \
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
 RUN mkdir /root/StarCraftII/maps/
-ADD maps.txt /root/StarCraftII/maps/
 WORKDIR /root/StarCraftII/maps/
-RUN wget -i maps.txt
+RUN wget https://sc2ai.net/Maps/Season1Maps.zip
+RUN wget https://sc2ai.net/Maps/Season2Maps.zip
+RUN wget https://sc2ai.net/Maps/Season3Maps.zip
+RUN wget https://sc2ai.net/Maps/Season4Maps.zip
+RUN wget https://sc2ai.net/Maps/Season5Maps.zip
+RUN wget https://sc2ai.net/Maps/Season6Maps.zip
+RUN wget https://sc2ai.net/Maps/Season7Maps.zip
+RUN wget http://wiki.sc2ai.net/images/9/95/S8Wk1Maps.zip
+RUN wget http://wiki.sc2ai.net/images/a/af/Wk2maps.zip
 RUN unzip -o '*.zip'
 RUN rm *.zip
 RUN rm *.txt
