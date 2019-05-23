@@ -80,6 +80,9 @@ RUN rm *.tar.gz
 RUN tree
 
 
+# Install Tychus bot requirements
+RUN python -m pip install portpicker async-timeout aiohttp pyglet numpy scipy s2clientprotocol hypothesis pytest-asyncio pillow mypy pytest
+
 
 ENTRYPOINT [ "/bin/bash" ]
 
