@@ -1,6 +1,6 @@
 # Set up StarCraft II Test Environment for Dentosal python-sc2 bots (not pysc2 bots!)
 
-# Use an official Ubuntu release as a base image
+# Use an official debian stretch slim release as a base image
 FROM python:3.7-slim
 MAINTAINER Burny <gamingburny@gmail.com>
 
@@ -39,7 +39,7 @@ RUN make
 # Set working directory to root, this uncompresses StarCraftII below to folder /root/StarCraftII
 WORKDIR /root/
 
-# Download and uncompress StarCraftII, remove zip file
+# Download and uncompress StarCraftII from https://github.com/Blizzard/s2client-proto#linux-packages and remove zip file
 # If file is locally available, use this instead:
 #ADD SC2.4.7.1.zip /root/
 #RUN unzip -P iagreetotheeula SC2.4.7.1.zip \
@@ -48,10 +48,32 @@ RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.7.1.zip' \
     && unzip -P iagreetotheeula SC2.4.7.1.zip \
     && rm *.zip
 
+
+# Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
-RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2018Season2_Updated.zip \
-    && unzip -P iagreetotheeula Ladder2018Season2_Updated.zip -d ~/StarCraftII/maps/ \
-    && rm *.zip
+RUN mkdir /root/StarCraftII/maps/
+ADD maps.txt /root/StarCraftII/maps/
+WORKDIR /root/StarCraftII/maps/
+RUN wget -i maps.txt
+RUN unzip -o '*.zip'
+RUN rm *.zip
+RUN rm *.txt
+RUN tree
+
+
+# Download laddermanager
+RUN mkdir /root/lm
+WORKDIR /root/lm
+RUN wget http://dl.ai-arena.net/laddermanager.tar.gz
+RUN tar -xvzf laddermanager.tar.gz
+RUN tree
+# Move files one directory up
+RUN mv aiarena-client/* .
+RUN rm -r aiarena-client
+RUN rm *.tar.gz
+RUN tree
+
+
 
 ENTRYPOINT [ "/bin/bash" ]
 
