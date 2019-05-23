@@ -67,20 +67,6 @@ RUN rm *.zip
 RUN tree
 
 
-# Download laddermanager
-RUN mkdir /root/lm
-WORKDIR /root/lm
-RUN wget http://dl.ai-arena.net/laddermanager.tar.gz
-RUN tar -xvzf laddermanager.tar.gz
-RUN tree
-# Move files one directory up
-RUN mv aiarena-client/* .
-RUN rm -r aiarena-client
-RUN rm *.tar.gz
-RUN tree
-
-
-
 ENTRYPOINT [ "/bin/bash" ]
 
 
