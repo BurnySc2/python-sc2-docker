@@ -1,7 +1,7 @@
 # Set up StarCraft II Test Environment for Dentosal python-sc2 bots (not pysc2 bots!)
 
 # Use an official debian stretch slim release as a base image
-FROM python:3.7-slim
+FROM python:3.6-slim
 MAINTAINER Burny <gamingburny@gmail.com>
 
 USER root
@@ -79,9 +79,6 @@ RUN rm -r aiarena-client
 RUN rm *.tar.gz
 RUN tree
 
-
-# Install Tychus bot requirements
-RUN python -m pip install portpicker async-timeout aiohttp pyglet numpy scipy s2clientprotocol hypothesis pytest-asyncio pillow mypy pytest
 
 
 ENTRYPOINT [ "/bin/bash" ]
