@@ -41,13 +41,12 @@ WORKDIR /root/
 
 # Download and uncompress StarCraftII from https://github.com/Blizzard/s2client-proto#linux-packages and remove zip file
 # If file is locally available, use this instead:
-#ADD SC2.4.7.1.zip /root/
-#RUN unzip -P iagreetotheeula SC2.4.7.1.zip \
+#ADD SC2.4.10.zip /root/
+#RUN unzip -P iagreetotheeula SC2.4.10.zip \
 #    && rm *.zip
-RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.7.1.zip' \
-    && unzip -P iagreetotheeula SC2.4.7.1.zip \
+RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.10.zip' \
+    && unzip -P iagreetotheeula SC2.4.10.zip \
     && rm *.zip
-
 
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
