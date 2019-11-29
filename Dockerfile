@@ -1,7 +1,7 @@
 # Set up StarCraft II Test Environment for Dentosal python-sc2 bots (not pysc2 bots!)
 
 # Use an official debian stretch slim release as a base image
-FROM python:3.7-slim
+FROM python:3.8-slim
 MAINTAINER Burny <gamingburny@gmail.com>
 
 USER root
