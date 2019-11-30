@@ -62,6 +62,17 @@ RUN wget https://sc2ai.net/Maps/Season6Maps.zip
 RUN wget https://sc2ai.net/Maps/Season7Maps.zip
 RUN wget http://wiki.sc2ai.net/images/9/95/S8Wk1Maps.zip
 RUN wget http://wiki.sc2ai.net/images/a/af/Wk2maps.zip
+
+RUN wget http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip
+RUN unzip -P iagreetotheeula -o 'Ladder2019Season3.zip'
+RUN mv Ladder2019Season3/* .
+RUN rmdir Ladder2019Season3
+
+RUN wget http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip
+RUN unzip -P iagreetotheeula -o 'Melee.zip'
+RUN mv Melee/* .
+RUN rmdir Melee
+
 RUN unzip -o '*.zip'
 RUN rm *.zip
 RUN tree
