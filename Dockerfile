@@ -7,15 +7,12 @@ MAINTAINER Burny <gamingburny@gmail.com>
 USER root
 WORKDIR /root/
 
-# Update apt-get
-RUN apt-get update && apt-get upgrade --assume-yes --quiet=2
-
 # From https://github.com/yeungegs/egsy-dockerfiles/tree/master/botbierv2
 # Update and install packages for SC2 development environment
 # g++ and make and cmake to install the S2Client API
 # git, unzip and wget for download and extraction
 # tree for debugging
-RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
+RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     net-tools \
     g++ \
     make \
@@ -24,7 +21,9 @@ RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     make \
     tree \
     unzip \
-    wget
+    wget \
+    # Clean up
+    && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and install pip-install requirements
 RUN python -m pip install --upgrade pip pipenv
