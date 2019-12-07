@@ -5,7 +5,6 @@ FROM python:3.7-slim
 MAINTAINER Burny <gamingburny@gmail.com>
 
 USER root
-WORKDIR /root/
 
 # From https://github.com/yeungegs/egsy-dockerfiles/tree/master/botbierv2
 # Update and install packages for SC2 development environment
@@ -69,9 +68,11 @@ RUN ln -s /home/aiarena/StarCraftII/Maps /home/aiarena/StarCraftII/maps
 # Remove the Maps that come with the SC2 client
 RUN rm -Rf /home/aiarena/StarCraftII/maps/*
 
+# Change to maps folder
+WORKDIR /home/aiarena/StarCraftII/maps/
+
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
-WORKDIR /home/aiarena/StarCraftII/maps/
 RUN wget https://sc2ai.net/Maps/Season1Maps.zip
 RUN wget https://sc2ai.net/Maps/Season2Maps.zip
 RUN wget https://sc2ai.net/Maps/Season3Maps.zip
@@ -98,8 +99,8 @@ RUN tree
 
 WORKDIR /home/aiarena/
 
-# Install pipenv requirements
-RUN python -m pip install pipenv
+# Switch User
+USER root
 
 # Download python requirements files
 RUN wget https://gitlab.com/aiarena/aiarena-client/raw/master/requirements.linux.txt -O client-requirements.txt
@@ -117,9 +118,6 @@ RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/master/aiarena-clie
 # Create Bot and Replay directories
 RUN mkdir -p /home/aiarena/StarCraftII/Bots
 RUN mkdir -p /home/aiarena/StarCraftII/Replays
-
-# Switch User
-USER root
 
 # Change to working directory
 WORKDIR /home/aiarena/aiarena-client
