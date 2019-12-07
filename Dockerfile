@@ -47,10 +47,7 @@ RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     # Clean up
     && rm -rf /var/lib/apt/lists/*
 
-# Create aiarena user and change workdir/user
-RUN useradd -ms /bin/bash aiarena
-WORKDIR /home/aiarena/
-USER aiarena
+WORKDIR /root/
 ENV PATH $PATH
 
 # Download and uncompress StarCraftII from https://github.com/Blizzard/s2client-proto#linux-packages and remove zip file
@@ -63,13 +60,13 @@ RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.10.zip' \
     && rm *.zip
 
 # Create a symlink for the maps directory
-RUN ln -s /home/aiarena/StarCraftII/Maps /home/aiarena/StarCraftII/maps
+RUN ln -s /root/StarCraftII/Maps /root/StarCraftII/maps
 
 # Remove the Maps that come with the SC2 client
-RUN rm -Rf /home/aiarena/StarCraftII/maps/*
+RUN rm -Rf /root/StarCraftII/maps/*
 
 # Change to maps folder
-WORKDIR /home/aiarena/StarCraftII/maps/
+WORKDIR /root/StarCraftII/maps/
 
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
@@ -97,55 +94,43 @@ RUN rmdir Melee
 RUN rm *.zip
 RUN tree
 
-WORKDIR /home/aiarena/
+WORKDIR /root/
+
+# Add Pythonpath to env to user aiarena
+ENV PYTHONPATH=/root/aiarena-client/:/root/aiarena-client/arenaclient/:/root/.local/bin
+ENV HOST 0.0.0.0
 
 # Download python requirements files
 RUN wget https://gitlab.com/aiarena/aiarena-client/raw/master/requirements.linux.txt -O client-requirements.txt
 RUN wget https://gitlab.com/aiarena/aiarena-client-provisioning/raw/master/aiarena-vm/templates/python-requirements.txt.j2 -O bot-requirements.txt
 
 # Install python modules
-RUN pip install --user -r client-requirements.txt
-RUN pip install --user -r bot-requirements.txt
+RUN pip install -r client-requirements.txt
+RUN pip install -r bot-requirements.txt
 
 # Download the aiarena client
 RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/master/aiarena-client-master.tar.gz \
     && tar xvzf aiarena-client-master.tar.gz \
     && mv aiarena-client-master aiarena-client
 
-# Switch User
-#USER root
-
 # Create Bot and Replay directories
-RUN mkdir -p /home/aiarena/StarCraftII/Bots
-RUN mkdir -p /home/aiarena/StarCraftII/Replays
+RUN mkdir -p /root/StarCraftII/Bots
+RUN mkdir -p /root/StarCraftII/Replays
 
 # Change to working directory
-WORKDIR /home/aiarena/aiarena-client
+WORKDIR /root/aiarena-client
 
 # List contents of directory
 RUN tree
 
-# Add Pythonpath to env to user aiarena
-ENV PYTHONPATH=/home/aiarena/aiarena-client/:/home/aiarena/aiarena-client/arenaclient/:/home/aiarena/.local/bin
-ENV HOST 0.0.0.0
-
-# Switch User
-#USER root
-
 # Install the arena client as a module
-#RUN python /home/aiarena/aiarena-client/setup.py install
-
-# Switch User
-#USER aiarena
-
-# Add Pythonpath to env to user aiarena
-#ENV PYTHONPATH=/home/aiarena/aiarena-client/:/home/aiarena/aiarena-client/arenaclient/
+#RUN python /root/aiarena-client/setup.py install
 
 # Setup the config file
-RUN echo '{"bot_directory_location": "/home/aiarena/StarCraftII/Bots", "sc2_directory_location": "/home/aiarena/StarCraftII/", "replay_directory_location": "/home/aiarena/StarCraftII/Replays", "API_token": "", "max_game_time": "60486", "allow_debug": "Off", "visualize": "Off"}' > /home/aiarena/aiarena-client/arenaclient/proxy/settings.json
+RUN echo '{"bot_directory_location": "/root/StarCraftII/Bots", "sc2_directory_location": "/root/StarCraftII/", "replay_directory_location": "/root/StarCraftII/Replays", "API_token": "", "max_game_time": "60486", "allow_debug": "Off", "visualize": "Off"}' > /root/aiarena-client/arenaclient/proxy/settings.json
 
-WORKDIR /home/aiarena/aiarena-client/arenaclient
+WORKDIR /root/aiarena-client/arenaclient
 
 # Run the match runner gui
 #ENTRYPOINT [ "/bin/bash" ]
-ENTRYPOINT [ "python", "proxy/server.py", "-f", "true" ]
+ENTRYPOINT [ "python", "proxy/server.py", "-f" ]
