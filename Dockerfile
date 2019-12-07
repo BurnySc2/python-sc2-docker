@@ -99,21 +99,21 @@ RUN tree
 
 WORKDIR /home/aiarena/
 
-# Switch User
-USER root
-
 # Download python requirements files
 RUN wget https://gitlab.com/aiarena/aiarena-client/raw/master/requirements.linux.txt -O client-requirements.txt
 RUN wget https://gitlab.com/aiarena/aiarena-client-provisioning/raw/master/aiarena-vm/templates/python-requirements.txt.j2 -O bot-requirements.txt
 
 # Install python modules
-RUN pip install -r client-requirements.txt
-RUN pip install -r bot-requirements.txt
+RUN pip install --user -r client-requirements.txt
+RUN pip install --user -r bot-requirements.txt
 
 # Download the aiarena client
 RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/master/aiarena-client-master.tar.gz \
     && tar xvzf aiarena-client-master.tar.gz \
     && mv aiarena-client-master aiarena-client
+
+# Switch User
+#USER root
 
 # Create Bot and Replay directories
 RUN mkdir -p /home/aiarena/StarCraftII/Bots
@@ -125,13 +125,21 @@ WORKDIR /home/aiarena/aiarena-client
 # List contents of directory
 RUN tree
 
-# Add Pythonpath to env
-ENV PYTHONPATH=/home/aiarena/aiarena-client/:/home/aiarena/aiarena-client/arenaclient/
+# Add Pythonpath to env to user aiarena
+ENV PYTHONPATH=/home/aiarena/aiarena-client/:/home/aiarena/aiarena-client/arenaclient/:/home/aiarena/.local/bin
 ENV HOST 0.0.0.0
 
-# Install the arena client as a module
-RUN python /home/aiarena/aiarena-client/setup.py install
+# Switch User
+#USER root
 
+# Install the arena client as a module
+#RUN python /home/aiarena/aiarena-client/setup.py install
+
+# Switch User
+#USER aiarena
+
+# Add Pythonpath to env to user aiarena
+#ENV PYTHONPATH=/home/aiarena/aiarena-client/:/home/aiarena/aiarena-client/arenaclient/
 
 # Setup the config file
 RUN echo '{"bot_directory_location": "/home/aiarena/StarCraftII/Bots", "sc2_directory_location": "/home/aiarena/StarCraftII/", "replay_directory_location": "/home/aiarena/StarCraftII/Replays", "API_token": "", "max_game_time": "60486", "allow_debug": "Off", "visualize": "Off"}' > /home/aiarena/aiarena-client/arenaclient/proxy/settings.json
@@ -139,4 +147,5 @@ RUN echo '{"bot_directory_location": "/home/aiarena/StarCraftII/Bots", "sc2_dire
 WORKDIR /home/aiarena/aiarena-client/arenaclient
 
 # Run the match runner gui
+#ENTRYPOINT [ "/bin/bash" ]
 ENTRYPOINT [ "python", "proxy/server.py", "-f", "true" ]
