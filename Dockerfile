@@ -25,28 +25,6 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-
     # Clean up
     && rm -rf /var/lib/apt/lists/*
 
-# Add the microsoft repo for dotnetcore
-RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg && \
-    mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/ && \
-    wget -q https://packages.microsoft.com/config/debian/9/prod.list && \
-    mv prod.list /etc/apt/sources.list.d/microsoft-prod.list && \
-    chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
-    chown root:root /etc/apt/sources.list.d/microsoft-prod.list
-
-# Needed for Java install
-RUN mkdir -p /usr/share/man/man1
-
-# Needed to use the 32bit version of wine
-RUN dpkg --add-architecture i386
-
-# Install software via APT
-RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
-    openjdk-11-jdk \
-    wine \
-    dotnet-sdk-2.2 \
-    # Clean up
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /root/
 ENV PATH $PATH
 
@@ -70,17 +48,6 @@ WORKDIR /root/StarCraftII/maps/
 
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
-RUN wget https://sc2ai.net/Maps/Season1Maps.zip
-RUN wget https://sc2ai.net/Maps/Season2Maps.zip
-RUN wget https://sc2ai.net/Maps/Season3Maps.zip
-RUN wget https://sc2ai.net/Maps/Season4Maps.zip
-RUN wget https://sc2ai.net/Maps/Season5Maps.zip
-RUN wget https://sc2ai.net/Maps/Season6Maps.zip
-RUN wget https://sc2ai.net/Maps/Season7Maps.zip
-RUN wget http://wiki.sc2ai.net/images/9/95/S8Wk1Maps.zip
-RUN wget http://wiki.sc2ai.net/images/a/af/Wk2maps.zip
-RUN unzip -o '*.zip'
-
 RUN wget http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip
 RUN unzip -P iagreetotheeula -o 'Ladder2019Season3.zip'
 RUN mv Ladder2019Season3/* .
