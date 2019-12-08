@@ -36,8 +36,10 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 # Needed for Java install
 RUN mkdir -p /usr/share/man/man1
 
-# Install software via APT
+# Needed to use the 32bit version of wine
 RUN dpkg --add-architecture i386
+
+# Install software via APT
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     openjdk-11-jdk \
     wine \
@@ -129,6 +131,5 @@ RUN echo '{"bot_directory_location": "/root/StarCraftII/Bots", "sc2_directory_lo
 
 WORKDIR /root/aiarena-client/arenaclient
 
-# Run the match runner gui
-#ENTRYPOINT [ "/bin/bash" ]
+# Start the proxy server
 ENTRYPOINT [ "python", "proxy/server.py", "-f" ]
