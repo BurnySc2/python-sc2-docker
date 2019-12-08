@@ -33,14 +33,12 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
     chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
     chown root:root /etc/apt/sources.list.d/microsoft-prod.list
 
-# Update APT cache
-RUN apt-get update
-
 # Needed for Java install
 RUN mkdir -p /usr/share/man/man1
 
 # Install software via APT
-RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
+RUN dpkg --add-architecture i386
+RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     openjdk-11-jdk \
     wine \
     dotnet-sdk-3.0 \
