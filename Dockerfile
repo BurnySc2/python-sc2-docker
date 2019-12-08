@@ -41,6 +41,7 @@ RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     openjdk-11-jdk \
     wine \
+    dotnet-sdk-2.2 \
     dotnet-sdk-3.0 \
     # Clean up
     && rm -rf /var/lib/apt/lists/*
