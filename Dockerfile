@@ -11,6 +11,7 @@ USER root
 # git, unzip and wget for download and extraction
 # tree for debugging
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
+    libglib2.0-0 \
     git  \
     make \
     gcc \
