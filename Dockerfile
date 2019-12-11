@@ -37,12 +37,12 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 RUN mkdir -p /usr/share/man/man1
 
 # Needed to use the 32bit version of wine
-#RUN dpkg --add-architecture i386
+RUN dpkg --add-architecture i386
 
 # Install software via APT
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     openjdk-11-jdk \
-#    wine \
+    wine \
     dotnet-sdk-2.2 \
     # Clean up
     && rm -rf /var/lib/apt/lists/*
@@ -109,7 +109,7 @@ RUN pip install -r client-requirements.txt
 RUN pip install -r bot-requirements.txt
 
 # Download the aiarena client
-RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/master/aiarena-client-master.tar.gz \
+RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/burny_fixes/aiarena-client-burny_fixes.tar.gz \
     && tar xvzf aiarena-client-master.tar.gz \
     && mv aiarena-client-master aiarena-client
 
