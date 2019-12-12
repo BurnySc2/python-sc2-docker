@@ -12,6 +12,9 @@ USER root
 # tree for debugging
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     git  \
     make \
     gcc \
