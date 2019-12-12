@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends --no-
     libsm6 \
     libxext6 \
     libxrender-dev \
-    git  \
+    git \
     make \
     gcc \
     tree \
