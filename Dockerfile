@@ -113,7 +113,7 @@ RUN pip install -r client-requirements.txt
 RUN pip install -r bot-requirements.txt
 
 # Download the aiarena client
-RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/burny_fixes/aiarena-client-burny_fixes.tar.gz \
+RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/master/aiarena-client-master.tar.gz \
     && tar xvzf aiarena-client-master.tar.gz \
     && mv aiarena-client-master aiarena-client
 
