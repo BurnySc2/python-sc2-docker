@@ -124,9 +124,15 @@ RUN git clone https://github.com/BurnySc2/aiarena-client /root/aiarena-client
 # Change to working directory
 WORKDIR /root/aiarena-client
 
+# Install bot requirements
+RUN pip install -r bot_requirements.txt
+
 # Install poetry and arenaclient requirements
 RUN pip install poetry
 RUN poetry install
+# Or if you want to run without poetry (virtual environment):
+#RUN poetry export -f requirements.txt --output requirements.txt
+#RUN pip install -r requirements.txt
 
 # List contents of directory
 RUN tree
@@ -141,3 +147,8 @@ WORKDIR /root/aiarena-client/arenaclient
 
 # Start the proxy server
 ENTRYPOINT [ "poetry", "run", "python", "proxy/server.py", "-f" ]
+#ENTRYPOINT [ "python", "proxy/server.py", "-f" ]
+
+# Alternatively start the server via interactive mode (while using 'sh' or 'bash' as entrypoint):
+# docker exec -i app python /root/aiarena-client/arenaclient/proxy/server.py -f &
+#ENTRYPOINT [ "sh" ]
