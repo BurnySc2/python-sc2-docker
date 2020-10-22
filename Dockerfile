@@ -112,12 +112,6 @@ ENV HOST 0.0.0.0
 RUN mkdir -p /root/StarCraftII/Bots
 RUN mkdir -p /root/StarCraftII/Replays
 
-# Download python requirements files (python bot requirements)
-RUN wget https://raw.githubusercontent.com/BurnySc2/aiarena-client/aiarena-client-linux/bot_requirements.txt -O bot-requirements.txt
-
-# Install python modules
-RUN pip install -r bot-requirements.txt
-
 # Download the aiarena client
 RUN git clone https://github.com/BurnySc2/aiarena-client /root/aiarena-client
 
