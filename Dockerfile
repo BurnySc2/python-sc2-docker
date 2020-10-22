@@ -108,7 +108,7 @@ WORKDIR /root/
 ENV PYTHONPATH=/root/aiarena-client/:/root/aiarena-client/arenaclient/:/root/.local/bin
 ENV HOST 0.0.0.0
 
-# Create Bot and Replay directories
+# Create Bot and Replay directories (arenaclient specific)
 RUN mkdir -p /root/StarCraftII/Bots
 RUN mkdir -p /root/StarCraftII/Replays
 
@@ -117,9 +117,6 @@ RUN git clone https://github.com/BurnySc2/aiarena-client /root/aiarena-client
 
 # Change to working directory
 WORKDIR /root/aiarena-client
-
-# Install bot requirements
-RUN pip install -r bot_requirements.txt
 
 # Install poetry and arenaclient requirements
 RUN pip install poetry
