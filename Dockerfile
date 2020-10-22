@@ -81,6 +81,10 @@ RUN wget https://sc2ai.net/Maps/Season4Maps.zip
 RUN wget https://sc2ai.net/Maps/Season5Maps.zip
 RUN wget https://sc2ai.net/Maps/Season6Maps.zip
 RUN wget https://sc2ai.net/Maps/Season7Maps.zip
+RUN wget https://sc2ai.net/Maps/Season8Maps.zip
+RUN wget https://sc2ai.net/Maps/Season9Maps.zip
+RUN wget https://sc2ai.net/Maps/Season10Maps.zip
+RUN wget https://sc2ai.net/Maps/Season11Maps.zip
 RUN wget http://wiki.sc2ai.net/images/9/95/S8Wk1Maps.zip
 RUN wget http://wiki.sc2ai.net/images/a/af/Wk2maps.zip
 RUN unzip -o '*.zip'
@@ -104,25 +108,25 @@ WORKDIR /root/
 ENV PYTHONPATH=/root/aiarena-client/:/root/aiarena-client/arenaclient/:/root/.local/bin
 ENV HOST 0.0.0.0
 
-# Download python requirements files
-RUN wget https://gitlab.com/aiarena/aiarena-client/raw/master/requirements.linux.txt -O client-requirements.txt
-RUN wget https://gitlab.com/aiarena/aiarena-client-provisioning/raw/master/aiarena-vm/templates/python-requirements.txt.j2 -O bot-requirements.txt
-
-# Install python modules
-RUN pip install -r client-requirements.txt
-RUN pip install -r bot-requirements.txt
-
-# Download the aiarena client
-RUN wget https://gitlab.com/aiarena/aiarena-client/-/archive/master/aiarena-client-master.tar.gz \
-    && tar xvzf aiarena-client-master.tar.gz \
-    && mv aiarena-client-master aiarena-client
-
 # Create Bot and Replay directories
 RUN mkdir -p /root/StarCraftII/Bots
 RUN mkdir -p /root/StarCraftII/Replays
 
+# Download python requirements files (python bot requirements)
+RUN wget https://raw.githubusercontent.com/BurnySc2/aiarena-client/aiarena-client-linux/bot_requirements.txt -O bot-requirements.txt
+
+# Install python modules
+RUN pip install -r bot-requirements.txt
+
+# Download the aiarena client
+RUN git clone https://github.com/BurnySc2/aiarena-client /root/aiarena-client
+
 # Change to working directory
 WORKDIR /root/aiarena-client
+
+# Install poetry and arenaclient requirements
+RUN pip install poetry
+RUN poetry install
 
 # List contents of directory
 RUN tree
@@ -136,4 +140,4 @@ RUN echo '{"bot_directory_location": "/root/StarCraftII/Bots", "sc2_directory_lo
 WORKDIR /root/aiarena-client/arenaclient
 
 # Start the proxy server
-ENTRYPOINT [ "python", "proxy/server.py", "-f" ]
+ENTRYPOINT [ "poetry", "run", "python", "proxy/server.py", "-f" ]
