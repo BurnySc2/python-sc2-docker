@@ -125,7 +125,7 @@ RUN poetry install
 #RUN poetry export -f requirements.txt --output requirements.txt
 #RUN pip install -r requirements.txt
 
-# List contents of directory
+# List contents of working directory
 RUN tree
 
 # Install the arena client as a module
