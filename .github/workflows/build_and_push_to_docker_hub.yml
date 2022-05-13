@@ -31,5 +31,7 @@ jobs:
       with:
         push: true
         tags: burnysc2/python-sc2-docker:py_${{ matrix.python-version }}-sc2_${{ matrix.sc2-version }}-v1.0.0
-        build-args: 'PYTHON_VERSION=${{ matrix.python-version }}\nSC2_VERSION=${{ matrix.sc2-version }}'
+        build-args: |
+          PYTHON_VERSION=${{ matrix.python-version }}
+          SC2_VERSION=${{ matrix.sc2-version }}
     if: needs.check-for-existing-docker-image.outputs.tag-exists != 'true'
