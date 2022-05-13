@@ -6,6 +6,7 @@ jobs:
   docker-build-and-push:
     name: Build docker image and push
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:

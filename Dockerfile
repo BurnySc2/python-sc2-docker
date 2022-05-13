@@ -24,9 +24,6 @@ RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     rename \
     tree
 
-# Upgrade pip and install pip-install requirements
-RUN python -m pip install --upgrade pip poetry
-
 # Set working directory to root, this uncompresses StarCraftII below to folder /root/StarCraftII
 WORKDIR /root/
 
@@ -35,7 +32,7 @@ WORKDIR /root/
 # ADD SC2.4.10.zip /root/
 # RUN unzip -P iagreetotheeula SC2.4.10.zip \
 #    && rm *.zip
-RUN wget http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
+RUN wget -q http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
     && unzip -P iagreetotheeula SC2.$SC2_VERSION.zip \
     && rm *.zip
 
@@ -51,7 +48,7 @@ WORKDIR /root/StarCraftII/maps/
 
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
-RUN wget http://archive.sc2ai.net/Maps/Season1Maps.zip \
+RUN wget -q http://archive.sc2ai.net/Maps/Season1Maps.zip \
     http://archive.sc2ai.net/Maps/Season2Maps.zip \
     http://archive.sc2ai.net/Maps/Season3Maps.zip \
     http://archive.sc2ai.net/Maps/Season4Maps.zip \
@@ -64,7 +61,7 @@ RUN wget http://archive.sc2ai.net/Maps/Season1Maps.zip \
 
 RUN unzip -o '*.zip'
 
-RUN wget http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
+RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
     && unzip -P iagreetotheeula -o 'Ladder2019Season3.zip' \
     && mv Ladder2019Season3/* . \
     && rmdir Ladder2019Season3
@@ -73,10 +70,10 @@ RUN wget http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
 RUN ls
 RUN rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map
 
-RUN wget https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip \
+RUN wget -q https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip \
     && unzip -o '506.zip'
 
-RUN wget http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip \
+RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip \
     && unzip -P iagreetotheeula -o 'Melee.zip' \
     && mv Melee/* . \
     && rmdir Melee
