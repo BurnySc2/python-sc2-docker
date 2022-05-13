@@ -74,15 +74,19 @@ WORKDIR /root/StarCraftII/maps/
 
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
-RUN wget https://sc2ai.net/Maps/Season1Maps.zip
-RUN wget https://sc2ai.net/Maps/Season2Maps.zip
-RUN wget https://sc2ai.net/Maps/Season3Maps.zip
-RUN wget https://sc2ai.net/Maps/Season4Maps.zip
-RUN wget https://sc2ai.net/Maps/Season5Maps.zip
-RUN wget https://sc2ai.net/Maps/Season6Maps.zip
-RUN wget https://sc2ai.net/Maps/Season7Maps.zip
-RUN wget http://wiki.sc2ai.net/images/9/95/S8Wk1Maps.zip
-RUN wget http://wiki.sc2ai.net/images/a/af/Wk2maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season1Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season2Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season3Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season4Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season5Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season6Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season7Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season8Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season9Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season10Maps.zip
+RUN wget http://archive.sc2ai.net/Maps/Season11Maps.zip
+RUN wget https://github.com/shostyn/sc2patch/raw/master/Maps/2021Season2Ladder.zip
+RUN wget https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip
 RUN unzip -o '*.zip'
 
 RUN wget http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip
