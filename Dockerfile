@@ -2,7 +2,7 @@
 ARG PYTHON_VERSION=3.8
 
 # Use an official debian stretch slim release as a base image
-FROM python:${PYTHON_VERSION}-slim
+FROM python:$PYTHON_VERSION-slim
 MAINTAINER Burny <gamingburny@gmail.com>
 
 ARG SC2_VERSION=4.10
@@ -35,8 +35,8 @@ WORKDIR /root/
 # ADD SC2.4.10.zip /root/
 # RUN unzip -P iagreetotheeula SC2.4.10.zip \
 #    && rm *.zip
-RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.${SC2_VERSION}.zip' \
-    && unzip -P iagreetotheeula SC2.${SC2_VERSION}.zip \
+RUN wget http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
+    && unzip -P iagreetotheeula SC2.$SC2_VERSION.zip \
     && rm *.zip
 
 # Remove the Maps that come with the SC2 client
