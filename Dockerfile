@@ -31,12 +31,12 @@ WORKDIR /root/
 
 # Download and uncompress StarCraftII from https://github.com/Blizzard/s2client-proto#linux-packages and remove zip file
 # If file is locally available, use this instead:
-ADD SC2.4.10.zip /root/
-RUN unzip -P iagreetotheeula SC2.4.10.zip \
-   && rm *.zip
-# RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.${SC2_VERSION}.zip' \
-#     && unzip -P iagreetotheeula SC2.${SC2_VERSION}.zip \
-#     && rm *.zip
+# ADD SC2.4.10.zip /root/
+# RUN unzip -P iagreetotheeula SC2.4.10.zip \
+#    && rm *.zip
+RUN wget -q 'http://blzdistsc2-a.akamaihd.net/Linux/SC2.${SC2_VERSION}.zip' \
+    && unzip -P iagreetotheeula SC2.${SC2_VERSION}.zip \
+    && rm *.zip
 
 # Remove the Maps that come with the SC2 client
 RUN mkdir -p /root/StarCraftII/maps/ \
