@@ -77,7 +77,7 @@ RUN wget --quiet --show-progress --progress=bar:force \
     && rm Melee.zip \
     && rm -r Melee \
     # Remove LE suffix from file names
-    && rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map
+    && rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map \
     # List all map files
     && tree
 
