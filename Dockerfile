@@ -66,7 +66,7 @@ RUN wget -q \
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
     && unzip -q -P iagreetotheeula -o 'Ladder2019Season3.zip' \
     && mv Ladder2019Season3/* . \
-    && rm Ladder2019Season3
+    && rm -r Ladder2019Season3
 
 # Remove LE suffix from file names
 RUN rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map
@@ -78,7 +78,7 @@ RUN wget -q https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip \
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip \
     && unzip -q -P iagreetotheeula -o 'Melee.zip' \
     && mv Melee/* . \
-    && rmdir Melee
+    && rm -r Melee
 
 # List all map files
 RUN tree
