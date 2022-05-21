@@ -33,7 +33,7 @@ WORKDIR /root/
 # ADD SC2.4.10.zip /root/
 # RUN unzip -P iagreetotheeula SC2.4.10.zip \
 #    && rm *.zip
-RUN wget -q http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
+RUN wget --quiet --show-progress --progress=bar:force http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
     && unzip -q -P iagreetotheeula SC2.$SC2_VERSION.zip \
     && rm *.zip
 
@@ -49,7 +49,8 @@ WORKDIR /root/StarCraftII/maps/
 
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
-RUN wget -q http://archive.sc2ai.net/Maps/Season1Maps.zip \
+RUN wget -q \
+    http://archive.sc2ai.net/Maps/Season1Maps.zip \
     http://archive.sc2ai.net/Maps/Season2Maps.zip \
     http://archive.sc2ai.net/Maps/Season3Maps.zip \
     http://archive.sc2ai.net/Maps/Season4Maps.zip \
@@ -58,28 +59,29 @@ RUN wget -q http://archive.sc2ai.net/Maps/Season1Maps.zip \
     http://archive.sc2ai.net/Maps/Season7Maps.zip \
     http://archive.sc2ai.net/Maps/Season8Maps.zip \
     http://archive.sc2ai.net/Maps/Season9Maps.zip \
-    http://archive.sc2ai.net/Maps/Season10Maps.zip
-
-RUN unzip -q -o '*.zip'
+    http://archive.sc2ai.net/Maps/Season10Maps.zip \
+    && unzip -q -o '*.zip' \
+    && rm *.zip
 
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
     && unzip -q -P iagreetotheeula -o 'Ladder2019Season3.zip' \
     && mv Ladder2019Season3/* . \
-    && rmdir Ladder2019Season3
+    && rm Ladder2019Season3
 
 # Remove LE suffix from file names
-RUN ls
 RUN rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map
 
 RUN wget -q https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip \
-    && unzip -q -o '506.zip'
+    && unzip -q -o '506.zip' \
+    && rm *.zip
 
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip \
     && unzip -q -P iagreetotheeula -o 'Melee.zip' \
     && mv Melee/* . \
     && rmdir Melee
 
-RUN rm *.zip && tree
+# List all map files
+RUN tree
 
 WORKDIR /root/
 
