@@ -10,7 +10,8 @@ ARG SC2_VERSION=4.10
 USER root
 
 # Update apt-get
-RUN apt-get update && apt-get upgrade --assume-yes --quiet=2
+RUN apt-get update \
+    && apt-get upgrade --assume-yes --quiet=2
 
 # From https://github.com/yeungegs/egsy-dockerfiles/tree/master/botbierv2
 # Update and install packages for SC2 development environment
