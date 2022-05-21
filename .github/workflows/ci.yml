@@ -4,7 +4,9 @@ on: [push, pull_request]
 
 # Docker image version
 env:
-  VERSION_NUMBER: 1.0.0
+  VERSION_NUMBER: '1.0.0'
+  LATEST_PYTHON_VERSION: '3.10'
+  LATEST_SC2_VERSION: '4.10'
 
 jobs:
   docker_build:
@@ -32,5 +34,13 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Upload docker image
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         docker push burnysc2/python-sc2-docker:py_${{ matrix.python-version }}-sc2_${{ matrix.sc2-version }}-v${{ env.VERSION_NUMBER }}
+
+    - name: Upload docker image with latest tag
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push' && matrix.python-version == env.LATEST_PYTHON_VERSION && matrix.sc2-version == env.LATEST_SC2_VERSION
+      run: |
+        docker tag burnysc2/python-sc2-docker:py_${{ matrix.python-version }}-sc2_${{ matrix.sc2-version }}-v${{ env.VERSION_NUMBER }} burnysc2/python-sc2-docker:latest
+        docker push burnysc2/python-sc2-docker:latest
+
