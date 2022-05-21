@@ -2,6 +2,7 @@ name: Build and push to docker hub
 
 on: [push, pull_request]
 
+# Docker image version
 env:
   VERSION_NUMBER: 1.0.0
 
