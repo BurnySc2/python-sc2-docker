@@ -9,16 +9,14 @@ ARG SC2_VERSION=4.10
 
 USER root
 
-# Update apt-get
+# Update system
 RUN apt-get update \
-    && apt-get upgrade --assume-yes --quiet=2
-
-# From https://github.com/yeungegs/egsy-dockerfiles/tree/master/botbierv2
-# Update and install packages for SC2 development environment
-# git, unzip and wget for download and extraction
-# rename to rename maps
-# tree for debugging
-RUN apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
+    && apt-get upgrade --assume-yes --quiet=2 \
+    # Update and install packages for SC2 development environment
+    # git, unzip and wget for download and extraction
+    # rename to rename maps
+    # tree for debugging
+    && apt-get install --assume-yes --no-install-recommends --no-show-upgraded \
     git  \
     unzip \
     wget \
@@ -35,21 +33,21 @@ WORKDIR /root/
 #    && rm *.zip
 RUN wget --quiet --show-progress --progress=bar:force http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
     && unzip -q -P iagreetotheeula SC2.$SC2_VERSION.zip \
-    && rm *.zip
-
-# Remove the Maps that come with the SC2 client
-RUN mkdir -p /root/StarCraftII/maps/ \
-    && rm -Rf /root/StarCraftII/maps/*
-
-# Create a symlink for the maps directory
-RUN ln -s /root/StarCraftII/Maps /root/StarCraftII/maps
+    && rm *.zip \
+    # Remove the Maps that come with the SC2 client
+    && mkdir -p /root/StarCraftII/maps/ \
+    && rm -Rf /root/StarCraftII/maps/* \
+    # Create a symlink for the maps directory
+    && ln -s /root/StarCraftII/Maps /root/StarCraftII/maps
 
 # Change to maps folder
 WORKDIR /root/StarCraftII/maps/
 
 # Maps are available here https://github.com/Blizzard/s2client-proto#map-packs and here http://wiki.sc2ai.net/Ladder_Maps
 # Download and uncompress StarCraftII Maps, remove zip file - using "maps" instead of "Maps" as target folder
-RUN wget -q \
+
+# Get ladder maps
+RUN wget --quiet --show-progress --progress=bar:force \
     http://archive.sc2ai.net/Maps/Season1Maps.zip \
     http://archive.sc2ai.net/Maps/Season2Maps.zip \
     http://archive.sc2ai.net/Maps/Season3Maps.zip \
@@ -61,27 +59,27 @@ RUN wget -q \
     http://archive.sc2ai.net/Maps/Season9Maps.zip \
     http://archive.sc2ai.net/Maps/Season10Maps.zip \
     && unzip -q -o '*.zip' \
-    && rm *.zip
-
-RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
+    && rm *.zip \
+    # Get official blizzard maps
+    && wget --quiet --show-progress --progress=bar:force http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
     && unzip -q -P iagreetotheeula -o 'Ladder2019Season3.zip' \
     && mv Ladder2019Season3/* . \
-    && rm -r Ladder2019Season3
-
-# Remove LE suffix from file names
-RUN rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map
-
-RUN wget -q https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip \
+    && rm Ladder2019Season3.zip \
+    && rm -r Ladder2019Season3 \
+    # Get v5.0.6 maps
+    && wget --quiet --show-progress --progress=bar:force https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip \
     && unzip -q -o '506.zip' \
-    && rm *.zip
-
-RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip \
+    && rm 506.zip \
+    # Get flat and empty maps
+    && wget --quiet --show-progress --progress=bar:force http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip \
     && unzip -q -P iagreetotheeula -o 'Melee.zip' \
     && mv Melee/* . \
-    && rm -r Melee
-
-# List all map files
-RUN tree
+    && rm Melee.zip \
+    && rm -r Melee \
+    # Remove LE suffix from file names
+    && rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map
+    # List all map files
+    && tree
 
 WORKDIR /root/
 
