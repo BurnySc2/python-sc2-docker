@@ -34,7 +34,7 @@ WORKDIR /root/
 # RUN unzip -P iagreetotheeula SC2.4.10.zip \
 #    && rm *.zip
 RUN wget -q http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
-    && unzip -P iagreetotheeula SC2.$SC2_VERSION.zip \
+    && unzip -q -P iagreetotheeula SC2.$SC2_VERSION.zip \
     && rm *.zip
 
 # Remove the Maps that come with the SC2 client
@@ -60,10 +60,10 @@ RUN wget -q http://archive.sc2ai.net/Maps/Season1Maps.zip \
     http://archive.sc2ai.net/Maps/Season9Maps.zip \
     http://archive.sc2ai.net/Maps/Season10Maps.zip
 
-RUN unzip -o '*.zip'
+RUN unzip -q -o '*.zip'
 
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Ladder2019Season3.zip \
-    && unzip -P iagreetotheeula -o 'Ladder2019Season3.zip' \
+    && unzip -q -P iagreetotheeula -o 'Ladder2019Season3.zip' \
     && mv Ladder2019Season3/* . \
     && rmdir Ladder2019Season3
 
@@ -72,10 +72,10 @@ RUN ls
 RUN rename -v 's/LE.SC2Map/.SC2Map/' *.SC2Map
 
 RUN wget -q https://github.com/shostyn/sc2patch/raw/master/Maps/506.zip \
-    && unzip -o '506.zip'
+    && unzip -q -o '506.zip'
 
 RUN wget -q http://blzdistsc2-a.akamaihd.net/MapPacks/Melee.zip \
-    && unzip -P iagreetotheeula -o 'Melee.zip' \
+    && unzip -q -P iagreetotheeula -o 'Melee.zip' \
     && mv Melee/* . \
     && rmdir Melee
 
