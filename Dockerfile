@@ -28,17 +28,19 @@ WORKDIR /root/
 
 # Download and uncompress StarCraftII from https://github.com/Blizzard/s2client-proto#linux-packages and remove zip file
 # If file is locally available, use this instead:
-# ADD SC2.4.10.zip /root/
-# RUN unzip -P iagreetotheeula SC2.4.10.zip \
-#    && rm *.zip
+#ADD SC2.4.10.zip /root/
 RUN wget --quiet --show-progress --progress=bar:force http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
     && unzip -q -P iagreetotheeula SC2.$SC2_VERSION.zip \
-    && rm *.zip \
+    && rm SC2.$SC2_VERSION.zip \
     # Remove the Maps that come with the SC2 client
-    && mkdir -p /root/StarCraftII/maps/ \
-    && rm -Rf /root/StarCraftII/maps/* \
+    && mkdir -p /root/StarCraftII/maps \
+    && rm -rf /root/StarCraftII/Maps/* \
     # Create a symlink for the maps directory
-    && ln -s /root/StarCraftII/Maps /root/StarCraftII/maps
+    && ln -s /root/StarCraftII/Maps /root/StarCraftII/maps \
+    # Remove Battle.net folder
+    && rm -rf /root/StarCraftII/Battle.net/* \
+    # Remove Shaders folder
+    && rm -rf /root/StarCraftII/Versions/Shaders*
 
 # Change to maps folder
 WORKDIR /root/StarCraftII/maps/
@@ -88,7 +90,6 @@ ENTRYPOINT [ "/bin/bash" ]
 # To run a python-sc2 bot:
 # Install python-sc2 and requirements via pip:
 # python -m pip install --upgrade https://github.com/BurnySc2/python-sc2/archive/develop.zip
-
 
 # To run an example bot, copy one to your container and then run it with python:
 # python /your-bot.py

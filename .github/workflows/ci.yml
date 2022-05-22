@@ -27,6 +27,21 @@ jobs:
       run: |
         docker build -t burnysc2/python-sc2-docker:py_${{ matrix.python-version }}-sc2_${{ matrix.sc2-version }}-v${{ env.VERSION_NUMBER }} --build-arg PYTHON_VERSION=${{ matrix.python-version }} --build-arg SC2_VERSION=${{ matrix.sc2-version }} .
 
+    - name: Run test bots
+      run: |
+        echo "Start container, override the default entrypoint"
+        docker run -it -d \
+          --name test_container \
+          --entrypoint /bin/bash \
+          burnysc2/python-sc2-docker:py_${{ matrix.python-version }}-sc2_${{ matrix.sc2-version }}-v${{ env.VERSION_NUMBER }}
+        Echo "Install python-sc2"
+        docker exec -it test_container bash -c "pip install poetry \
+            && git clone https://github.com/BurnySc2/python-sc2 python-sc2 \
+            && cd python-sc2 && poetry install"
+        echo "Run various test bots"
+        docker exec -it test_container bash -c "cd python-sc2 && poetry run python test/travis_test_script.py test/autotest_bot.py"
+        docker exec -it test_container bash -c "cd python-sc2 && poetry run python test/run_example_bots_vs_computer.py"
+
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
