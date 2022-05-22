@@ -32,11 +32,10 @@ WORKDIR /root/
 RUN wget --quiet --show-progress --progress=bar:force http://blzdistsc2-a.akamaihd.net/Linux/SC2.$SC2_VERSION.zip \
     && unzip -q -P iagreetotheeula SC2.$SC2_VERSION.zip \
     && rm SC2.$SC2_VERSION.zip \
-    # Remove the Maps that come with the SC2 client
-    && mkdir -p /root/StarCraftII/maps \
-    && rm -rf /root/StarCraftII/Maps/* \
     # Create a symlink for the maps directory
     && ln -s /root/StarCraftII/Maps /root/StarCraftII/maps \
+    # Remove the Maps that come with the SC2 client
+    && rm -rf /root/StarCraftII/maps/* \
     # Remove Battle.net folder
     && rm -rf /root/StarCraftII/Battle.net/* \
     # Remove Shaders folder
