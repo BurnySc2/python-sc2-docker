@@ -34,7 +34,7 @@ jobs:
           --name test_container \
           --entrypoint /bin/bash \
           burnysc2/python-sc2-docker:py_${{ matrix.python-version }}-sc2_${{ matrix.sc2-version }}-v${{ env.VERSION_NUMBER }}
-        Echo "Install python-sc2"
+        echo "Install python-sc2"
         docker exec -it test_container bash -c "pip install poetry \
             && git clone https://github.com/BurnySc2/python-sc2 python-sc2 \
             && cd python-sc2 && poetry install"
