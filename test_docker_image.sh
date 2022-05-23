@@ -15,7 +15,7 @@ docker rm -f test_container
 docker run -it -d \
   --name test_container \
   --entrypoint /bin/bash \
-  test_image
+  burnysc2/python-sc2-docker:latest
 
 # Install python-sc2
 docker exec -it test_container bash -c "pip install poetry \
